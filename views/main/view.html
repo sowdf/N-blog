@@ -1,0 +1,133 @@
+<% include header.html %>
+
+    <div class="col-lg-8 col-sm-8 column">
+        <article class="post clearfix">
+            <header>
+                <div class="media">
+                    <div class="blockquote-1">
+                        <blockquote>
+                            “There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle.�?
+                        </blockquote>
+                        <span>- Albert Einstein</span>
+                    </div>
+                </div>
+                <h3><%=content.title%></h3>
+                <span><%=content.showTime%> / by <a href="#"><%=content.user.username%></a> / in: <a href="#">4399</a> / <a href="#"><%=content.views%> Comments</a></span>
+            </header>
+            <div class="editor-styles">
+                <p><%=content.content%></p>
+            </div>
+            <footer>
+                <div>
+                    <a href="#" class="social-1"><i class="fa fa-facebook"></i></a>
+                    <a href="#" class="social-1"><i class="fa fa-twitter"></i></a>
+                    <a href="#" class="social-1"><i class="fa fa-google-plus"></i></a>
+                    <a href="#" class="social-1"><i class="fa fa-pinterest"></i></a>
+                    <a href="#" class="social-1"><i class="fa fa-tumblr"></i></a>
+                </div>
+                <hr>
+            </footer>
+        </article>
+        <div id="post-author">
+            <img src="assets/img/avatar2.png" alt="">
+            <h4>Hi, I’m studio-themes</h4>
+            <p>Egestas adipiscing purus elementum risus turpis tincidunt, nascetur a, ultricies lacus nisi platea risus sed tincidunt adipiscing.</p>
+        </div>
+        <nav id="post-nav-2" class="clearfix">
+            <div class="push-left">
+                <a href="#">« Previous</a>
+                <h6>Hike in mountain</h6>
+            </div>
+            <div class="push-right">
+                <a href="#">Next »</a>
+                <h6>Sunset in summer.</h6>
+            </div>
+        </nav>
+        <div id="comments">
+            <h4>4 Comments</h4>
+            <ul id="list-comments">
+                <% content.comment.forEach(function(item){%>
+                <li class="comment byuser even thread-even depth-1">
+                    <div class="comment-body">
+                        <div class="comment-author vcard">
+                            <img src="assets/img/avatar.png" alt="">
+                            <cite class="fn"><%=item.username%></cite>
+                        </div>
+                        <p><%=item.content%></p>
+                        <div class="comment-meta commentmetadata"><a href="http://andon-wordpress.studio-themes.com/338/#comment-43">
+                            <%=item.showTime%> /</a>&nbsp;&nbsp;<a href="#" class="comment-edit-link"><%=content.title%></a>
+                        </div>
+                    </div>
+                </li>
+                <%})%>
+
+                <li class="comment byuser even thread-even depth-1">
+                    <div class="comment-body">
+                        <div class="comment-author vcard">
+                            <img src="assets/img/avatar.png" alt="">
+                            <cite class="fn">Alan Smith</cite>
+                        </div>
+                        <p>Maecenas scelerisque nibh nec eros mattis id suscipit sem viverra estibulum nec est nec urna.</p>
+                        <div class="comment-meta commentmetadata"><a href="http://andon-wordpress.studio-themes.com/338/#comment-43">
+                            December 23, 2014 at 8:00 am /</a>&nbsp;&nbsp;<a href="#" class="comment-edit-link">Reply</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div id="commentform">
+                <h4>Leave a reply</h4>
+                <form method="post">
+                    <input type="text" name="personal" placeholder="Name*">
+                    <input type="text" name="email" placeholder="Email*">
+                    <input type="text" name="website" placeholder="Website">
+                    <input type="hidden" value="<%=content._id%>" id="j-contentId">
+                    <textarea name="comment" placeholder="Message" id="j-comment"></textarea>
+                    <button type="button" id="j-sendMessage">Send messsage</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<% include footer.html %>
+<script>
+    $('#j-sendMessage').on('click',function(){
+        var contentId = $('#j-contentId').val();
+        var comment = $('#j-comment').val();
+        $.ajax({
+            url : '/api/comment/post',
+            type : 'POST',
+            dataType : 'JSON',
+            data : {
+                contentId : contentId,
+                comment : comment
+            },
+            success : function(res){
+                if(!res.code){
+                    $('#j-comment').val();
+                    tempalteRender(res.result.comment,$('#list-comments'));
+                }
+                console.log(res);
+            }
+        })
+    });
+    function tempalteRender(data,obj){
+        var html = '';
+        data.forEach(function(item){
+            html += ' <li class="comment byuser even thread-even depth-1">'+
+                '<div class="comment-body">'+
+                '<div class="comment-author vcard">'+
+                '<img src="assets/img/avatar.png" alt="">'+
+                '<cite class="fn">'+item.username+'</cite>'+
+                '</div>'+
+                '<p>'+item.content+'</p>'+
+                '<div class="comment-meta commentmetadata"><a>'+
+                ''+ item.showTime+ ' /</a>&nbsp;&nbsp;<a class="comment-edit-link"><%=content.title%></a>'+
+                '</div>'+
+                '</div>'+
+                '</li>';
+        });
+        console.log(html);
+        obj.html(html);
+
+    }
+</script>

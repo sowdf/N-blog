@@ -1,0 +1,114 @@
+<div class="col-lg-4 col-sm-4 column space">
+    <aside id="sidebar">
+        <div class="widget">
+            <div class="search-form clearfix">
+                <input type="text" name="s" placeholder="Search...">
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </div>
+        </div>
+        <div class="widget">
+            <h4>About</h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget turpis pulvinar, tempor odio sed, adipiscing dolor.</p>
+        </div>
+        <div class="widget">
+            <h4>Find me on</h4>
+            <p>
+                <a href="#" class="social-1"><i class="fa fa-facebook"></i></a>
+                <a href="#" class="social-1"><i class="fa fa-twitter"></i></a>
+                <a href="#" class="social-1"><i class="fa fa-google-plus"></i></a>
+                <a href="#" class="social-1"><i class="fa fa-linkedin"></i></a>
+            </p>
+        </div>
+        <div class="widget">
+            <h4>Latest Posts</h4>
+            <ul>
+                <li><a href="#">My journey into the unkown.</a></li>
+                <li><a href="#">Top 10 restaurant in California.</a></li>
+                <li><a href="#">Sunset of summer.</a></li>
+                <li><a href="#">Hike in mountains.</a></li>
+            </ul>
+        </div>
+        <div class="widget">
+            <h4>Categories</h4>
+            <ul>
+                <li><a href="category_travel.html">Travel</a> (4)</li>
+                <li><a href="category_lifestyle.html">Lifestyle</a> (3)</li>
+                <li><a href="category_video.html">Video</a> (1)</li>
+                <li><a href="category_music.html">Music</a> (5)</li>
+            </ul>
+        </div>
+        <div class="widget tagcloud">
+            <h4>Tags</h4>
+            <%categories.forEach(function(item){%>
+            <a href="/?category=<%=item._id%>"><%=item.name%></a>
+            <%})%>
+        </div>
+    </aside>
+</div>
+</div>
+</div>
+</section>
+
+<footer id="footer-main">
+    <div class="container">
+        <div class="row">
+            <div id="foot-left" class="col-lg-6 col-sm-6">
+                <img src="/assets/img/logo2.png" alt="">
+                <p>© 2015 House. All Rights Reserved.</p>
+            </div>
+            <div id="foot-right" class="col-lg-6 col-sm-6">
+                <a href="#" class="social-1"><i class="fa fa-facebook"></i></a>
+                <a href="#" class="social-1"><i class="fa fa-twitter"></i></a>
+                <a href="#" class="social-1"><i class="fa fa-google-plus"></i></a>
+                <a href="#" class="social-1"><i class="fa fa-linkedin"></i></a>
+                <a href="#" class="social-1"><i class="fa fa-pinterest"></i></a>
+                <a href="#" class="social-1"><i class="fa fa-tumblr"></i></a>
+                <a href="#" class="social-1"><i class="fa fa-instagram"></i></a>
+                <a href="#" class="social-1"><i class="fa fa-rss"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+<div id="style-switcher">
+			<span>
+				<i class="fa fa-cog"></i>
+			</span>
+    <section>
+        <header>
+            <h6>Style selector</h6>
+            <hr>
+        </header>
+        <div>
+            <h6>Layout</h6>
+            <select>
+                <option selected="selected">Wide</option>
+                <option>Boxed</option>
+            </select>
+        </div>
+        <div>
+            <h6>Patterns</h6>
+            <img src="/assets/img/styleselector/patterns/1.jpg" alt="" data-background="bg1">
+            <img src="/assets/img/styleselector/patterns/2.jpg" alt="" data-background="bg2">
+            <img src="/assets/img/styleselector/patterns/3.jpg" alt="" data-background="bg3">
+            <img src="/assets/img/styleselector/patterns/4.jpg" alt="" data-background="bg4">
+            <img src="/assets/img/styleselector/patterns/5.jpg" alt="" data-background="bg5">
+            <img src="/assets/img/styleselector/patterns/6.jpg" alt="" data-background="bg6">
+            <img src="/assets/img/styleselector/patterns/7.jpg" alt="" data-background="bg7">
+            <img src="/assets/img/styleselector/patterns/8.jpg" alt="" data-background="bg8">
+        </div>
+        <div>
+            <h6>Images</h6>
+            <img src="/assets/img/styleselector/images/1.jpg" alt="" data-background="bg9">
+            <img src="/assets/img/styleselector/images/2.jpg" alt="" data-background="bg10">
+            <img src="/assets/img/styleselector/images/3.jpg" alt="" data-background="bg11">
+            <img src="/assets/img/styleselector/images/4.jpg" alt="" data-background="bg12">
+        </div>
+    </section>
+</div>
+<!-- ======== OTHER SCRIPTS ======== -->
+<script src="/assets/js/plugins.js"></script>
+<script src="/assets/js/scripts.js"></script>
+<!-- ======== /OTHER SCRIPTS ======== -->
+</body>
+</html>

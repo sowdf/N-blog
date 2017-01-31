@@ -1,0 +1,50 @@
+后台管理系统
+    1.添加路由
+        以中间建的形式来判断
+        判断用户是否是管理员
+    后台管理 用户管理 退出的连接
+
+    用户管理：
+        增加路由
+        增加连接
+        读取用户数
+            引入用户模型
+            分页操作
+            limit()的使用
+            从什么地方开始2
+            skip() 忽略数据的条数
+            count()
+
+    category
+    categories
+    Category
+        Promise.reject
+
+    修改
+        _id : { $ne : id }
+
+    内容管理
+        添加内容  title description content
+    内容表结构
+
+    //关联字段
+    category : {
+        type : mongoose.Schame.Types.ObjectId,
+        ref  : 'Content'
+    }
+    title
+
+    description : {
+        type : String,
+        default : ''
+    }
+
+    content
+
+    博客的作者  时间  阅读量
+
+    user
+
+    addTime new Date()
+
+    views number  o

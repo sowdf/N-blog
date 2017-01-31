@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "webpack": "webpack --config dll.config.js",
+    "build_blog": "webpack-dev-server --port 4000 --hot --host 0.0.0.0 --inline --config webpack.blog.config.js --content-base public/dist",
+    "start_blog": "webpack --config webpack.blog.config.js"
   },
   "dependencies": {
     "body-parser": "~1.15.2",
@@ -11,7 +14,7 @@
     "express": "~4.14.0",
     "markdown": "^0.5.0",
     "mongoose": "^4.5.7",
-    "swig" : "^1.4.2",
+    "swig": "^1.4.2",
     "babel-preset-react": "^6.5.0",
     "webpack": "^1.12.15",
     "react": "^0.14.7",
@@ -34,6 +37,8 @@
     "imagemin-pngquant": "^4.2.2",
     "jquery": "^2.1.4",
     "less-loader": "^2.2.3",
+    "moment": "^2.17.1",
+    "mongoose": "^4.7.8",
     "react-hot-loader": "^1.3.0",
     "react-router": "^3.0.0",
     "style-loader": "^0.13.0",

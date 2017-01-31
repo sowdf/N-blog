@@ -1,0 +1,60 @@
+<% include header.html %>
+<div class="col-sm-16">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>用户数据</h5>
+            <div class="ibox-tools">
+                <a class="collapse-link">
+                    <i class="fa fa-chevron-up"></i>
+                </a>
+                <a class="dropdown-toggle" data-toggle="dropdown" href="table_basic.html#">
+                    <i class="fa fa-wrench"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li><a href="table_basic.html#">选项1</a>
+                    </li>
+                    <li><a href="table_basic.html#">选项2</a>
+                    </li>
+                </ul>
+                <a class="close-link">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>用户id</th>
+                    <th>用户名称</th>
+                    <th>用户密码</th>
+                    <th>是否是管理员</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% users.forEach(function(item){%>
+                <tr>
+                    <td><%=item._id.toString()%></td>
+                    <td><%=item.username%></td>
+                    <td><%=item.password%></td>
+                    <% if(item.isAdmin) {%>
+                    <td class="text-navy">是</td>
+                    <% } else { %>
+                    <td class="text-warning">否</td>
+                    <% } %>
+                </tr>
+                <%})%>
+                </tbody>
+            </table>
+        </div>
+        <nav aria-label="...">
+            <ul class="pager">
+                <li class="previous <%=(page - 1) == 0 ? 'disabled' : ''%> "><a href="users?page=<%=page - 1%>"><span aria-hidden="true">&larr;</span>上一页</a></li>
+                <li>当前页有 <%=limit%> 条 ， 总共 <%=count%> 条， 共 <%=pages%>  页 ，这是第 <%=page%>  页 </li>
+                <li class="next <%=(page + 1) > pages ? 'disabled' : ''%> "><a href="users?page=<%=page + 1%>">下一页 <span aria-hidden="true">&rarr;</span></a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<% include footer.html %>

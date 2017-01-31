@@ -1,0 +1,14 @@
+<% include header.html %>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">成功</h3>
+    </div>
+    <div class="panel-body">
+        <% if(url == '') { %>
+        <%=success%> <a href="javascript:window.history.back();">返回上一页</a>
+        <%} else { %>
+        <%=success%> <a href="<%=url%>">返回上一页</a>
+        <% } %>
+    </div>
+</div>
+<% include footer.html %>
