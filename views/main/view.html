@@ -44,22 +44,8 @@
             </div>
         </nav>
         <div id="comments">
-            <h4>4 Comments</h4>
+            <h4 id="j-commentCount">0 Comments</h4>
             <ul id="list-comments">
-                <% content.comment.forEach(function(item){%>
-                <li class="comment byuser even thread-even depth-1">
-                    <div class="comment-body">
-                        <div class="comment-author vcard">
-                            <img src="assets/img/avatar.png" alt="">
-                            <cite class="fn"><%=item.username%></cite>
-                        </div>
-                        <p><%=item.content%></p>
-                        <div class="comment-meta commentmetadata"><a href="http://andon-wordpress.studio-themes.com/338/#comment-43">
-                            <%=item.showTime%> /</a>&nbsp;&nbsp;<a href="#" class="comment-edit-link"><%=content.title%></a>
-                        </div>
-                    </div>
-                </li>
-                <%})%>
 
                 <li class="comment byuser even thread-even depth-1">
                     <div class="comment-body">
@@ -90,9 +76,35 @@
 
 <% include footer.html %>
 <script>
+    //评论获取
+    var comment = (function(){
+
+        //设置评论条数
+        var setCommentCount = function(num){
+            var $count = $('#j-commentCount');
+            $count.html(num + ' Comments')
+        };
+
+        var contentId = $('#j-contentId').val();
+        $.ajax({
+            url : '/api/comment',
+            dataType : 'JSON',
+            data : {
+                contentId : contentId
+            },
+            success: function(res){
+                if(!res.code){
+                    tempalteRender(res.result.comment,$('#list-comments'));
+                    setCommentCount(res.result.comment.length);
+                }
+            }
+        })
+    })();
     $('#j-sendMessage').on('click',function(){
         var contentId = $('#j-contentId').val();
         var comment = $('#j-comment').val();
+
+
         $.ajax({
             url : '/api/comment/post',
             type : 'POST',
@@ -105,6 +117,7 @@
                 if(!res.code){
                     $('#j-comment').val();
                     tempalteRender(res.result.comment,$('#list-comments'));
+
                 }
                 console.log(res);
             }

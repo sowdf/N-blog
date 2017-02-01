@@ -147,6 +147,10 @@ router.get('/category',function(req,res,next){
     });
 });
 
+
+/*
+* 评论接口
+* */
 router.post('/comment/post',function (req,res,next) {
     if(!req.userInfo._id){
         responseData.code = 1;
@@ -163,7 +167,6 @@ router.post('/comment/post',function (req,res,next) {
     };
     Content.findOne({_id:contentId}).then(function(content){
         content.comment.push(commentDate);
-        console.log(32131);
         return content.save();
     }).then(function(newContent){
         responseData.result = newContent;
@@ -174,5 +177,17 @@ router.post('/comment/post',function (req,res,next) {
 });
 
 
+/*
+* 获取评论接口
+* */
+
+router.get('/comment',function(req,res,next){
+    let contentId = req.query.contentId;
+    Content.findOne({_id : contentId}).then(function(content){
+        responseData.message = '获取评论成功！';
+        responseData.result = content;
+        res.json(responseData);
+    });
+});
 
 module.exports = router;
