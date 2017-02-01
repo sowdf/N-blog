@@ -308,6 +308,7 @@ router.post('/content/add',function(req,res,next){
             error : '先填写文章标题'
         });
     }
+
     new Content({
         category : category,
         title : title,
