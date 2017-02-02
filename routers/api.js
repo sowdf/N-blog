@@ -7,9 +7,15 @@ let router = express.Router();
 let User = require('../models/User');
 let Category = require('../models/Category');
 let Content = require('../models/Content');
+let Image = require('../models/Image');
+let md5 = require('md5');
+let multer = require('multer');
+
 let moment = require('moment');
 
 let responseData = {};
+
+
 
 //初始化返回信息
 
@@ -21,6 +27,35 @@ router.use(function(req,res,next){
     next();
 });
 
+
+let storage = multer.diskStorage({
+    destination: function (req, file, cb){
+        if(!file.originalname){
+            return false;
+        }
+        cb(null, './public/articalImage')
+    },
+    filename: function (req, file, cb){
+        if(!file.originalname){
+            return false;
+        }
+        let fileName = file.originalname;
+        let arr =fileName.split('.');
+        let md5Rename = md5(file);
+
+        new Image({
+            name : file.originalname,
+            rename : md5Rename + '.' + arr[arr.length - 1]
+        }).save().then(function(newImage){
+        });
+        file.originalname = md5Rename + '.' + arr[arr.length - 1];
+        cb(null, file.originalname);
+    }
+});
+
+let upload = multer({
+    storage: storage
+});
 
 /*
 * 用户注册
@@ -188,6 +223,17 @@ router.get('/comment',function(req,res,next){
         responseData.result = content;
         res.json(responseData);
     });
+});
+
+router.post('/upload/post',upload.single('file'), function (req, res) {
+    if(!req.file){
+        responseData.code = 1;
+        responseData.message = '请选择文件~！';
+        return res.json(responseData);
+    }
+    responseData.url = 'http://'+req.headers.host+'/articalImage/' + req.file.originalname;
+    responseData.message = '上传成功~';
+    res.json(responseData);
 });
 
 module.exports = router;
