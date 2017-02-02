@@ -393,4 +393,10 @@ router.get('/content/delete',function(req,res,next){
     });
 });
 
+/*
+* admin 登录
+* */
+router.get('/login',function(req,res,next){
+    res.render('admin/login.html');
+});
 module.exports = router;

@@ -4,6 +4,6 @@ module.exports  = function (namespace, data){
     }
 
     var storeData = localStorage.getItem(namespace);
-    return (storeData && JSON.parse(storeData)) || [];
+    return (storeData && JSON.parse(storeData)) || null;
 };
 

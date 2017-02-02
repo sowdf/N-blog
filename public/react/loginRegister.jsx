@@ -1,10 +1,12 @@
 import React from 'react';
-
+import ReactDOM from 'react-dom';
 import Login from './login';
 import Register from './register';
 import UserInfo from './userInfo';
 import cp from '../js/component';
 import main from '../js/main';
+
+import '../css/style.css';
 
 export default class LoginReg extends React.Component{
     constructor(props){
@@ -48,3 +50,5 @@ export default class LoginReg extends React.Component{
         );
     }
 }
+
+ReactDOM.render(<LoginReg/>,document.getElementById('j-loginRegister'));

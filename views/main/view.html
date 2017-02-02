@@ -33,7 +33,7 @@
             <h4>Hi, I’m studio-themes</h4>
             <p>Egestas adipiscing purus elementum risus turpis tincidunt, nascetur a, ultricies lacus nisi platea risus sed tincidunt adipiscing.</p>
         </div>
-        <nav id="post-nav-2" class="clearfix">
+        <nav class="post-nav-2" class="clearfix">
             <div class="push-left">
                 <a href="#">« Previous</a>
                 <h6>Hike in mountain</h6>
@@ -60,12 +60,18 @@
                     </div>
                 </li>
             </ul>
+            <nav id="j-pages" class="post-nav-2 clearfix">
+                <div class="push-left">
+                    <a href="javascript:;" class="prev">« Previous</a>
+                </div>
+                <span id="j-pageTips"></span>
+                <div class="push-right">
+                    <a href="javascript:;" class="next">Next »</a>
+                </div>
+            </nav>
             <div id="commentform">
-                <h4>Leave a reply</h4>
+                <h4>Leave a <%=content.title%></h4>
                 <form method="post">
-                    <input type="text" name="personal" placeholder="Name*">
-                    <input type="text" name="email" placeholder="Email*">
-                    <input type="text" name="website" placeholder="Website">
                     <input type="hidden" value="<%=content._id%>" id="j-contentId">
                     <textarea name="comment" placeholder="Message" id="j-comment"></textarea>
                     <button type="button" id="j-sendMessage">Send messsage</button>
@@ -76,71 +82,104 @@
 
 <% include footer.html %>
 <script>
-    //评论获取
-    var comment = (function(){
+    (function(){
 
-        //设置评论条数
-        var setCommentCount = function(num){
+        var page = 1;
+        var limit = 5;
+        var skip = 0;
+        var pages = '';
+
+        //评论获取
+        var commentData = [];
+        var comment = (function(){
+
+
+
+            var contentId = $('#j-contentId').val();
+            $.ajax({
+                url : '/api/comment',
+                dataType : 'JSON',
+                data : {
+                    contentId : contentId
+                },
+                success: function(res){
+                    if(!res.code){
+                        pages = Math.ceil(res.result.comment.length / limit);
+                        $('#j-pageTips').html('第 '+page+' 页， 共 '+pages+'  页');
+                        commentData = res.result.comment;
+                        tempalteRender(res.result.comment,$('#list-comments'));
+                        setCommentCount(res.result.comment.length);
+                    }
+                }
+            })
+        })();
+        $('#j-sendMessage').on('click',function(){
+            var contentId = $('#j-contentId').val();
+            var comment = $('#j-comment').val();
+
+
+            $.ajax({
+                url : '/api/comment/post',
+                type : 'POST',
+                dataType : 'JSON',
+                data : {
+                    contentId : contentId,
+                    comment : comment
+                },
+                success : function(res){
+                    if(!res.code){
+                        $('#j-comment').val();
+                        commentData = res.result.comment;
+                        setCommentCount(res.result.comment.length);
+                        pages = Math.ceil(res.result.comment.length / limit);
+                        $('#j-pageTips').html('第 '+page+' 页， 共 '+pages+'  页');
+                        tempalteRender(res.result.comment,$('#list-comments'));
+
+                    }
+                }
+            })
+        });
+
+        $('#j-pages').on('click','a',function () {
+            var _this = $(this);
+            if(_this.hasClass('next')){
+                page++;
+            }else{
+                page--;
+            }
+            page = Math.min(page,pages);
+            page = Math.max(1,page);
+            $('#j-pageTips').html('第 '+page+' 页， 共 '+pages+'  页');
+            tempalteRender(commentData,$('#list-comments'));
+        });
+
+
+        function setCommentCount(num){
             var $count = $('#j-commentCount');
             $count.html(num + ' Comments')
         };
+        function tempalteRender(data,obj){
+            var html = '';
+            var newData = [];
+            skip = (page - 1) * limit;
+            newData = data.slice(skip,skip + limit);
+            newData.forEach(function(item){
+                html += ' <li class="comment byuser even thread-even depth-1">'+
+                    '<div class="comment-body">'+
+                    '<div class="comment-author vcard">'+
+                    '<img src="assets/img/avatar.png" alt="">'+
+                    '<cite class="fn">'+item.username+'</cite>'+
+                    '</div>'+
+                    '<p>'+item.content+'</p>'+
+                    '<div class="comment-meta commentmetadata"><a>'+
+                    ''+ item.showTime+ ' /</a>&nbsp;&nbsp;<a class="comment-edit-link"><%=content.title%></a>'+
+                    '</div>'+
+                    '</div>'+
+                    '</li>';
+            });
+            obj.html(html);
 
-        var contentId = $('#j-contentId').val();
-        $.ajax({
-            url : '/api/comment',
-            dataType : 'JSON',
-            data : {
-                contentId : contentId
-            },
-            success: function(res){
-                if(!res.code){
-                    tempalteRender(res.result.comment,$('#list-comments'));
-                    setCommentCount(res.result.comment.length);
-                }
-            }
-        })
+        }
     })();
-    $('#j-sendMessage').on('click',function(){
-        var contentId = $('#j-contentId').val();
-        var comment = $('#j-comment').val();
 
-
-        $.ajax({
-            url : '/api/comment/post',
-            type : 'POST',
-            dataType : 'JSON',
-            data : {
-                contentId : contentId,
-                comment : comment
-            },
-            success : function(res){
-                if(!res.code){
-                    $('#j-comment').val();
-                    tempalteRender(res.result.comment,$('#list-comments'));
-
-                }
-                console.log(res);
-            }
-        })
-    });
-    function tempalteRender(data,obj){
-        var html = '';
-        data.forEach(function(item){
-            html += ' <li class="comment byuser even thread-even depth-1">'+
-                '<div class="comment-body">'+
-                '<div class="comment-author vcard">'+
-                '<img src="assets/img/avatar.png" alt="">'+
-                '<cite class="fn">'+item.username+'</cite>'+
-                '</div>'+
-                '<p>'+item.content+'</p>'+
-                '<div class="comment-meta commentmetadata"><a>'+
-                ''+ item.showTime+ ' /</a>&nbsp;&nbsp;<a class="comment-edit-link"><%=content.title%></a>'+
-                '</div>'+
-                '</div>'+
-                '</li>';
-        });
-        console.log(html);
-        obj.html(html);
-
-    }
 </script>

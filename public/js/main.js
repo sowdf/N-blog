@@ -1,25 +1,12 @@
-import $ from 'expose?$!jquery';
 import cp from '../js/component';
-import cookies from '../js/cookies';
-import localstorage from '../js/localstorage';
 let main = {
     userInfoInit (){
-        let userInfo = localstorage('userInfo');
-        if(userInfo.length != 0){
-            cp.updateLoginRegComponent({
-                login : false,
-                register : false,
-                userInfo : true,
-                username : userInfo.username
-            });
-        }
         $.ajax({
             url : '/api/user/userInfo',
             type : 'GET',
             dataType : 'JSON',
             success : function(res){
                 if(!res.code){
-                    localstorage('userInfo',res.result);
                     cp.updateLoginRegComponent({
                         login : false,
                         register : false,
@@ -31,8 +18,7 @@ let main = {
                     cp.updateLoginRegComponent({
                         login : true,
                         register : false,
-                        userInfo : false,
-                        isAdmin : res.result.isAdmin
+                        userInfo : false
                     });
                 }
             }
@@ -96,29 +82,12 @@ let main = {
             dataType : 'JSON',
             success : function(res){
                 if(!res.code){
-                    localstorage('userInfo',[]);
                     cp.updateLoginRegComponent({
                         login : true,
                         register : false,
                         userInfo : false,
                         username : ''
                     });
-                }
-            }
-        })
-    },
-    categoriesInit(callback){
-        let categories = localstorage('categories');
-        callback && callback(categories);
-        $.ajax({
-            url : '/api/category',
-            type : 'GET',
-            dataType : 'JSON',
-            success : function(res){
-                let {result} = res;
-                localstorage('categories',result);
-                if(!res.code){
-                    callback && callback(result);
                 }
             }
         })

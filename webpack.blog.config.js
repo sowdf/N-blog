@@ -9,7 +9,8 @@ var _config = {
 
 module.exports = {
     entry:{
-        index :"./public/react/index.jsx",
+       /* index :"./public/react/index.jsx",*/
+        loginRegister :"./public/react/loginRegister.jsx",
     },
     output:{
         path:"./public/dist/",
@@ -17,10 +18,10 @@ module.exports = {
     },
     module:{
         loaders:[
-            {
+       /*     {
                 test: require.resolve('jquery'),
                 loader: 'expose?jQuery!expose?$'
-            },
+            },*/
             {
                 test:/.css$/,
                 loaders:["style","css"],

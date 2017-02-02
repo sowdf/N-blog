@@ -114,7 +114,7 @@ router.post('/user/login',(req,res,next)=>{
 * */
 
 router.get('/user/userInfo',(req,res,next)=>{
-    let userInfo = req.userInfo;
+    let userInfo = req.userInfo._id;
     if(!userInfo){
         responseData.code = 2;
         responseData.message = '您还没有登录！';
