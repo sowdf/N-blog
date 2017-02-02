@@ -21,7 +21,7 @@ router.get('/',(req,res,next)=>{
     data.contents = [];
     data.page =  Number(req.query.page || 1);
     data.datapages = 0;
-    data.limit = 1;
+    data.limit = 5;
     data.count = 0;
 
     let where = {};

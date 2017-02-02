@@ -35,5 +35,9 @@ module.exports = new mongoose.Schema({
     comment : {
         type : Array,
         default : []
+    },
+    guideMap : {
+        type : String,
+        default : 'http://www.sowdf.com/assets/img/home/1.jpg',
     }
 });

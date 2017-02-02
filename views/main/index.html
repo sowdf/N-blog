@@ -5,7 +5,7 @@
 				<article class="post">
 					<header>
 						<div class="media">
-							<a href="/view?contentId=<%=item._id%>"><img src="/assets/img/home/<%=index + 1%>.jpg" alt=""></a>
+							<a href="/view?contentId=<%=item._id%>"><img src="<%=item.guideMap%>" alt=""></a>
 						</div>
 						<h3><a href="/view?contentId=<%=item._id%>"><%=item.title%></a></h3>
 						<span><%=item.showTime%> / by <a href="#"><%=item.user.username%></a> / in: <a href="#">4399</a> / <a href="#"><%=item.views%> Comments</a></span>
@@ -16,7 +16,7 @@
 
 					<footer>
 						<div>
-							<a href="single.html">Continue Reading...</a>
+							<a href="/view?contentId=<%=item._id%>">Continue Reading...</a>
 						</div>
 						<hr>
 					</footer>
@@ -24,12 +24,12 @@
 				<%})%>
 				<nav id="post-nav">
 					<% if( (page - 1) > 0){%>
-					<a href="/?category=<%=category%>&page=<%= page - 1%>" class="fl">« last </a>
+					<a href="/?category=<%=category%>&page=<%= page - 1%>" class="fl">« Previous </a>
 					<%}%>
 
 					<span>第 <%=page%> 页,当前页有 <%=limit%> 条 ， 总共 <%=count%> 条， 共 <%=pages%>  页</span>
 					<% if( (page + 1) <= pages){%>
-					<a href="/?category=<%=category%>&page=<%= page + 1%>" class="fr">Older Posts »</a>
+					<a href="/?category=<%=category%>&page=<%= page + 1%>" class="fr">Next »</a>
 					<%}%>
 
 				</nav>

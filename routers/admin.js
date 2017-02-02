@@ -294,7 +294,7 @@ router.get('/content/add',function(req,res,next){
 * */
 
 router.post('/content/add',function(req,res,next){
-    let {category,title,description,content} = req.body;
+    let {category,title,description,content,guideMap} = req.body;
 
     if(category == ''){
         return res.render('admin/error.html',{
@@ -315,6 +315,7 @@ router.post('/content/add',function(req,res,next){
         description : description,
         content : content,
         user : req.userInfo._id,
+        guideMap : guideMap,
         showTime : moment(new Date()).format("YYYY年MM月DD日, HH:mm:ss")
     }).save().then(function(){
         return res.render('admin/success.html',{
@@ -350,7 +351,7 @@ router.get('/content/edit',function(req,res){
 * */
 router.post('/content/edit',function(req,res,next){
     let id = req.query.id;
-    let {category,title,description,content} = req.body;
+    let {category,title,description,content,guideMap} = req.body;
 
     if(category == ''){
         return res.render('admin/error.html',{
@@ -367,6 +368,7 @@ router.post('/content/edit',function(req,res,next){
     Content.update({_id : id},{
         category : category,
         title : title,
+        guideMap : guideMap,
         description : description,
         content : content
     }).then(function(){
