@@ -65,7 +65,9 @@ router.get('/view',function(req,res,next){
     let id = req.query.contentId;
     Content.findOne({_id:id}).populate('user').then(function(content){
         content.views++;
-        content.save();
+        return content.save();
+
+    }).then(function(content){
         content.content = markdown.toHTML(content.content);
         data.content = content;
         res.render('main/view.html',data);
