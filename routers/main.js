@@ -3,6 +3,7 @@
  */
 
 let express = require('express');
+let markdown  = require('markdown').markdown;
 let Content = require('../models/Content');
 let Category = require('../models/Category');
 let router = express.Router();
@@ -44,9 +45,13 @@ router.get('/',(req,res,next)=>{
 
         data.limit = data.limit > count ? count : data.limit;
 
-
         //查询多少条  跳过多少条
         Content.where(where).find().sort({_id:-1}).limit(data.limit).skip(skip).populate(['category','user']).then(function(contents){
+            if(contents.length > 0 ){
+                contents.forEach((item,index)=>{
+                    contents[index].description = markdown.toHTML(item.description);
+                })
+            }
             data.contents = contents;
             res.render('main/index.html',data);
         });
@@ -59,9 +64,10 @@ router.get('/',(req,res,next)=>{
 router.get('/view',function(req,res,next){
     let id = req.query.contentId;
     Content.findOne({_id:id}).populate('user').then(function(content){
-        data.content = content;
         content.views++;
         content.save();
+        content.content = markdown.toHTML(content.content);
+        data.content = content;
         res.render('main/view.html',data);
     });
 });
