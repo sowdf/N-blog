@@ -8,6 +8,7 @@ let User = require('../models/User');
 let Category = require('../models/Category');
 let Content = require('../models/Content');
 let Image = require('../models/Image');
+let markdown  = require('markdown').markdown;
 let md5 = require('md5');
 let multer = require('multer');
 
@@ -235,5 +236,54 @@ router.post('/upload/post',upload.single('file'), function (req, res) {
     responseData.message = '上传成功~';
     res.json(responseData);
 });
+
+
+/* 获取文章列表 */
+
+let data = {};
+router.get('/article-list',(req,res,next)=>{
+    data.category = req.query.category || '';
+    data.contents = [];
+    data.page =  Number(req.query.page || 1);
+    data.datapages = 0;
+    data.limit = 5;
+    data.count = 0;
+
+    let where = {};
+
+    if(data.category){
+        where.category = data.category;
+    }
+
+
+    Content.where(where).count().then(function(count){
+        data.count = count;
+        data.pages = Math.ceil(count / data.limit);
+        //page 处理 最小不能小于1 最大不能 大过pages
+        data.page = Math.min(data.page,data.pages);
+
+        data.page = Math.max(1,data.page);
+
+
+        let skip = (data.page - 1) * data.limit;
+
+        data.limit = data.limit > count ? count : data.limit;
+
+        //查询多少条  跳过多少条
+        Content.where(where).find().sort({_id:-1}).limit(data.limit).skip(skip).populate(['category','user']).then(function(contents){
+       /*     if(contents.length > 0 ){
+                contents.forEach((item,index)=>{
+                    contents[index].description = markdown.toHTML(item.description);
+                })
+            }*/
+            data.contents = contents;
+            responseData.code = 100;
+            responseData.result = data;
+            responseData.message = '查询成功';
+            res.json(data);
+        });
+    });
+});
+
 
 module.exports = router;
