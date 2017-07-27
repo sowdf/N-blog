@@ -65,7 +65,13 @@ app.use('/admin',admin);
 app.use('/api',api);
 app.use('/',main)
 
+/*mongoose.connect('mongodb://root:a2153218@120.24.169.84:27017/blog',{auth: {authdb: "admin"}},(err)=>{
+    console.log(err ? '数据库连接失败' : "数据库连接成功");
+    if(!err){
+        app.listen('8081');
+    }
 
+});*/
 mongoose.connect('mongodb://localhost:27017/blog',(err)=>{
     console.log(err ? '数据库连接失败' : "数据库连接成功");
     if(!err){
@@ -73,4 +79,3 @@ mongoose.connect('mongodb://localhost:27017/blog',(err)=>{
     }
 
 });
-

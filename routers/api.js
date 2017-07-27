@@ -285,5 +285,24 @@ router.get('/article-list',(req,res,next)=>{
     });
 });
 
+/*
+ * 详情页
+ * */
+router.get('/article-view',function(req,res,next){
+    let id = req.query.actId;
+    Content.findOne({_id:id}).populate('user').then(function(content){
+        content.views++;
+        return content.save();
+
+    }).then(function(content){
+        content.content = markdown.toHTML(content.content);
+        data.content = content;
+        responseData.code = 100;
+        responseData.result = data;
+        responseData.message = '查询成功';
+        res.json(data);
+    });
+});
+
 
 module.exports = router;
