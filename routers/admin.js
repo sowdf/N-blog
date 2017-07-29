@@ -295,7 +295,7 @@ router.get('/content/add',function(req,res,next){
 * */
 
 router.post('/content/add',function(req,res,next){
-    let {category,title,description,content,guideMap} = req.body;
+    let {category,title,description,content,html,guideMap} = req.body;
 
     if(category == ''){
         return res.render('admin/error.html',{
@@ -319,9 +319,10 @@ router.post('/content/add',function(req,res,next){
         description : description,
         content : content,
         user : req.userInfo._id,
+        html : html,
         guideMap : guideMap,
         showTime : moment(new Date()).format("YYYY年MM月DD日, HH:mm:ss")
-    }).save().then(function(){
+    }).save().then(function(data){
         return res.render('admin/success.html',{
             userInfo : req.userInfo,
             success : '文章添加成功',

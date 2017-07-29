@@ -16,6 +16,10 @@ module.exports = new mongoose.Schema({
         type : String,
         default : ''
     },
+    html : {
+        type : String,
+        default : ''
+    },
     views : {
         type : Number,
         default : 0

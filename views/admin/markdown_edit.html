@@ -39,6 +39,7 @@
         <div id="test-editormd">
                     <textarea  name="content" style="display:none;"><%=content.content%></textarea>
         </div>
+        <input type="hidden" id="j-html" name="html">
     </form>
 </div>
 <script src="/markdown/js/jquery.min.js"></script>
@@ -101,7 +102,11 @@
             onload : function() {
                 this.customMethod();
                 $.proxy(EditormdExtend, this)();
-            }
+            },
+            onchange : function () {
+                $('#j-html').val(this.getPreviewedHTML());
+            },
+            saveHTMLToTextarea : true
         });
 
         editormd.methodOne();
