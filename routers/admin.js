@@ -282,7 +282,7 @@ router.get('/content',function(req,res,next){
 * */
 router.get('/content/add',function(req,res,next){
     Category.find().sort({_id:-1}).then(function(categories){
-        res.render('admin/content_add.html',{
+        res.render('admin/markdown_add.html',{
             userInfo : req.userInfo,
             categories : categories
         });
@@ -308,6 +308,10 @@ router.post('/content/add',function(req,res,next){
             userInfo : req.userInfo,
             error : '先填写文章标题'
         });
+    }
+
+    if(description == ''){
+        description = content.slice(0,200);
     }
 
     new Content({
@@ -338,7 +342,7 @@ router.get('/content/edit',function(req,res){
         categories = result;
         return Content.findOne({_id : id}).populate('category');
     }).then(function(content){
-        res.render('admin/content_edit.html',{
+        res.render('admin/markdown_edit.html',{
             categories : categories,
             userInfo : req.userInfo,
             content : content
@@ -366,6 +370,11 @@ router.post('/content/edit',function(req,res,next){
             error : '先填写文章标题'
         });
     }
+
+    if(description == ''){
+        description = content.slice(0,200);
+    }
+
     Content.update({_id : id},{
         category : category,
         title : title,
@@ -395,6 +404,15 @@ router.get('/content/delete',function(req,res,next){
         });
     });
 });
+
+/*
+ * markdown 编辑页面
+ * */
+
+router.get('/markdown/edit',function(req,res,next){
+        return res.render('admin/markdown.html');
+});
+
 
 
 module.exports = router;

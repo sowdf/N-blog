@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8" />
+    <title>Expanded Editor.md - Editor.md examples</title>
+    <link rel="stylesheet" href="/markdown/css/style.css" />
+    <link rel="stylesheet" href="/markdown/css/editormd.css" />
+    <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
+</head>
+<style>
+    header {
+        margin:0 5%;
+        overflow:hidden;
+        padding-top:10px;
+        font-size:12px;
+        padding-bottom:10px;
+    }
+    header button { float: right ; width:80px; height:30px; line-height:30px;  outline: none; border-radius:5px; padding:0!important;}
+    header input { margin:5px ; height:30px; width:200px; padding-left:10px; outline: none;}
+    header select { width:100px; height:30px; margin-right:10px; outline: none;}
+</style>
+<body>
+<div id="layout">
+    <form class="form-horizontal ibox-content" method="post">
+        <header>
+            <select class="form-control m-b" name="category">
+                <option value="">请选择栏目</option>
+                <% categories.forEach(function(item){  %>
+                <option value="<%=item._id%>"><%=item.name%></option>
+                <% }) %>
+            </select>
+            <input type="text" placeholder="请输入文章标题" name="title">
+            <button class="btn btn-primary" type="submit">提交</button>
+        </header>
+        <div id="test-editormd">
+                    <textarea  name="content" style="display:none;">
+                    </textarea>
+        </div>
+    </form>
+</div>
+<script src="/markdown/js/jquery.min.js"></script>
+<script src="/markdown/js/editormd.js"></script>
+<script type="text/javascript">
+    var testEditor;
+
+    function EditormdExtend() {
+
+        this.extend("methodC", function() {
+            console.log("methodC");
+        });
+
+        // or
+        testEditor.extend("methodA", function() {
+            console.log("methodA");
+        });
+
+        // one by one setting
+        this.set("propertyA", "propertyA");
+        this.set("methodE", function() {
+            console.log("mothodE", this);
+        });
+
+        // mutil
+        this.extend({
+            propertyA : "propertyAAAA", // override, you can override other default method.
+            propertyB : "propertyB",
+            methodD : function() {
+                console.log("methodD");
+            }
+        });
+
+        this.methodB = function() {
+            console.log("methodB");
+        };
+
+        testEditor.methodA();
+        testEditor.methodB();
+        this.methodC();
+        this.methodE();
+        editormd.methodOne();
+
+        console.log(this, this.propertyA);
+    }
+
+    editormd.fn.customMethod = function() {
+        console.log("customMethod", this);
+    };
+
+    $(function() {
+        editormd.methodOne = function() {
+            console.log("editormd.methodOne");
+        };
+
+        testEditor = editormd("test-editormd", {
+            width  : "90%",
+            height : 900,
+            path   : '/markdown/lib/',
+            onload : function() {
+                this.customMethod();
+                $.proxy(EditormdExtend, this)();
+            }
+        });
+
+        editormd.methodOne();
+    });
+</script>
+</body>
+</html>

@@ -271,11 +271,11 @@ router.get('/article-list',(req,res,next)=>{
 
         //查询多少条  跳过多少条
         Content.where(where).find().sort({_id:-1}).limit(data.limit).skip(skip).populate(['category','user']).then(function(contents){
-       /*     if(contents.length > 0 ){
+            if(contents.length > 0 ){
                 contents.forEach((item,index)=>{
                     contents[index].description = markdown.toHTML(item.description);
                 })
-            }*/
+            }
             data.contents = contents;
             responseData.code = 100;
             responseData.result = data;
