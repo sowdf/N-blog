@@ -8,7 +8,11 @@ let User = require('../models/User');
 let Category = require('../models/Category');
 let Content = require('../models/Content');
 let Image = require('../models/Image');
-let markdown  = require('markdown').markdown;
+let markdown = require('markdown-it')({
+    html: true,
+    linkify: true,
+    typographer: true
+});
 let md5 = require('md5');
 let multer = require('multer');
 
@@ -273,7 +277,7 @@ router.get('/article-list',(req,res,next)=>{
         Content.where(where).find().sort({_id:-1}).limit(data.limit).skip(skip).populate(['category','user']).then(function(contents){
             if(contents.length > 0 ){
                 contents.forEach((item,index)=>{
-                    contents[index].description = markdown.toHTML(item.description);
+                    contents[index].description = markdown.render(item.description || '');
                 })
             }
             data.contents = contents;
@@ -295,7 +299,7 @@ router.get('/article-view',function(req,res,next){
         return content.save();
 
     }).then(function(content){
-        content.content = markdown.toHTML(content.content);
+        content.content = markdown.render(content.content);
         data.content = content;
         responseData.code = 100;
         responseData.result = data;
