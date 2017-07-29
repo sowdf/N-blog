@@ -356,7 +356,7 @@ router.get('/content/edit',function(req,res){
 * */
 router.post('/content/edit',function(req,res,next){
     let id = req.query.id;
-    let {category,title,description,content,guideMap} = req.body;
+    let {category,title,description,content,html,guideMap} = req.body;
 
     if(category == ''){
         return res.render('admin/error.html',{
@@ -380,8 +380,9 @@ router.post('/content/edit',function(req,res,next){
         title : title,
         guideMap : guideMap,
         description : description,
+        html : html,
         content : content
-    }).then(function(){
+    }).then(function(data){
         return res.render('admin/success.html',{
             userInfo : req.userInfo,
             success : '文章修改成功',
