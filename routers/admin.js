@@ -310,10 +310,9 @@ router.post('/content/add',function(req,res,next){
         });
     }
 
-    if(description == ''){
+    if(!description){
         description = content.slice(0,200);
     }
-
     new Content({
         category : category,
         title : title,
@@ -371,7 +370,7 @@ router.post('/content/edit',function(req,res,next){
         });
     }
 
-    if(description == ''){
+    if(!description){
         description = content.slice(0,200);
     }
 
